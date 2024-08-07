@@ -19,15 +19,19 @@ const consultationSchema = new mongoose.Schema({
     "followUpDate": {
         type: mongoose.Schema.Types.Date
     },
-    "doc_id": {
+    "docId": {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'DoctorModel', 
         required: true
     },
-    "user_id": {
+    "userId": {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'UserModel', 
         required: true
+    },
+    "date":{
+        type: Schema.Types.Date,
+            required: true
     }
 });
 

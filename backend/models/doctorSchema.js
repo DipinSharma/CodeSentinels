@@ -36,8 +36,8 @@ const doctorSchema = new mongoose.Schema({
         type:Schema.Types.Number,
         required:true
     },
-    "avaliabliblty":{
-        type:mongoose.Schema.Types.ObjectId,
+    "availability":{
+        type:Schema.Types.ObjectId,
         ref:'availabilityModel',
         required:true
     }

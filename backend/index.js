@@ -2,7 +2,8 @@ import express from 'express'
 import {mongoDB} from './config/dbConnect.js'
 import cors from "cors";
 import { config } from 'dotenv';
- 
+// import express from 'express';
+import userRoutes from './routes/user.js';
 config({path:'./.env'}) 
 
 const app = express()
@@ -17,6 +18,11 @@ mongoDB()
 //routes
 
 
+// const app = express();
+
+app.use("/api/v1/auth/", userRoutes);
+
+// app.use("/api/v1/auth/", userRoutes);
 
 app.use((req,res)=>res.send("invalid URL"))
 

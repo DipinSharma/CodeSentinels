@@ -1,7 +1,7 @@
 import {mongoose,Schema} from "mongoose";
 
 const AvailabilitySchema = new mongoose.Schema({
-    time_slots: [{
+    timeSlots: [{
         "start": {
             type: Schema.Types.Date,
             required: true
@@ -14,8 +14,8 @@ const AvailabilitySchema = new mongoose.Schema({
             type: Schema.Types.Boolean,
             default: false
         },
-        "date": {
-            type: Schema.Types.Date,
+        "day": {
+            type: Schema.Types.String,
             required: true
         }
     }]
