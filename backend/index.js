@@ -4,7 +4,7 @@ import cors from "cors";
 import { config } from 'dotenv';
 import userRoutes from './routes/userRouter.js';
 import consultationRoutes from './routes/consultationRouter.js';
-
+import detailsRouter from './routes/detailsRouter.js';
 config({path:'./.env'}) 
 
 const app = express()
@@ -21,7 +21,7 @@ mongoDB()
 app.use("/user", userRoutes);
 app.use('/consultation',consultationRoutes)
 
-
+app.use('/details',detailsRouter)
 app.use((req,res)=>res.send("invalid URL"))
 
 
