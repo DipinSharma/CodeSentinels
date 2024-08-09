@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import { Grid, Box, Heading } from "@chakra-ui/react";
-import { SocketContext } from "../Context";
-
+import { SocketContext } from "../../../Context";
 const VideoPlayer = () => {
     const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } = useContext(SocketContext);
 

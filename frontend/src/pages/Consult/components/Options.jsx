@@ -5,8 +5,8 @@ import { useState, useContext } from "react"
 import { Button, Input, FormLabel, Heading, Grid, Box, Container, FormControl } from "@chakra-ui/react"
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { BiClipboard, BiPhoneCall, BiPhoneOff } from "react-icons/bi";
-import { SocketContext } from "../Context";
-    
+import { SocketContext } from "../../../Context";
+
 const Options = () => {
     const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } = useContext(SocketContext);
     const [idToCall, setIdToCall] = useState('');
@@ -48,4 +48,4 @@ return (
     </Container>
 )
 }
-export default Options
+export default Options
