@@ -3,6 +3,7 @@ import { Box, Heading, Container } from '@chakra-ui/react';
 import VideoPlayer from "./components/VideoPlayer";
 import Notifications from "./components/Notifications";
 import Options from "./components/Options"
+import Transcription from "./components/Transcription";
 const VideoChat = () => {
   return (
     <Box>
@@ -12,6 +13,7 @@ const VideoChat = () => {
         <Options />
         <Notifications />
       </Container>
+
     </Box>
   )
 }

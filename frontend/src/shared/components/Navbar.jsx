@@ -21,28 +21,23 @@ const Navbar = () => {
                         <nav aria-label="Global">
                             <ul className="flex items-center gap-6 text-sm">
                                 <li>
-                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> About </a>
+                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/"> Home </a>
                                 </li>
 
                                 <li>
-                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Careers </a>
+                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Consult Doctor </a>
+                                </li>
+
+
+
+                                <li>
+                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/videoChat"> Call</a>
                                 </li>
 
                                 <li>
-                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> History </a>
+                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> About Us </a>
                                 </li>
 
-                                <li>
-                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Services </a>
-                                </li>
-
-                                <li>
-                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Projects </a>
-                                </li>
-
-                                <li>
-                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Blog </a>
-                                </li>
                             </ul>
                         </nav>
                     </div>
