@@ -4,27 +4,32 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Payment from "./pages/payement/components/Payment";
 import VideoChat from "./pages/Consult/VideoChat";
-import Login from "./pages/Login/Login";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Booking from "./pages/Booking/Booking";
-import AccountType from "./pages/Signup/components/AccountType";
-import DoctorForm from "./pages/Signup/components/DoctorForm";
-import UserForm from "./pages/Signup/components/UserForm";
-
+import DoctorForm from "./pages/Signup/components/SignUpDoctor";
+import UserSessions from "./pages/Session/components/UserSessions";
+// import Signup from "./pages/Signup/Signup";
+import UserLogin from "./pages/Login/components/UserLogin"
+import DoctorLogin from "./pages/Login/components/DoctorLogin";
+import SignUpDoctor from "./pages/Signup/components/SignUpDoctor";
+import SignUpUser from "./pages/Signup/components/SignUpUser";
 function App() {
   return (
-          <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path='/payment' element={<Payment/>} />
-            <Route path="/videoChat" element={<VideoChat/>}/>
-            <Route path="/login" element={<Login></Login>}></Route>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/patient" element={<Booking />} />
-            <Route path="/accounttype" element={<AccountType></AccountType>}></Route>
-            <Route path="/doctor" element={<DoctorForm></DoctorForm>}></Route>
-            <Route path="/signup" element={<UserForm></UserForm>}></Route>
-            {/* <Route path="/consult" element={<Consult/>}></Route> */}
-          </Routes>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path='/payment' element={<Payment />} />
+      <Route path="/videoChat" element={<VideoChat />} />
+      <Route path="/login/patient" element={<UserLogin />}></Route>
+      <Route path="/login/doctor" element={<DoctorLogin />}></Route>
+      <Route path="/patient/dashboard" element={<Dashboard />} />
+      <Route path="/doctor/dashboard" element={<Dashboard />} />
+      <Route path="/patient/dashboard/booking" element={<Booking />} />
+      <Route path="/signUp/patient" element={<SignUpUser/>}></Route>
+      <Route path="/signUp/doctor" element={<SignUpDoctor />}></Route>
+      <Route path='/sessions' element={<UserSessions />} />
+
+      {/* <Route path="/consult" element={<Consult/>}></Route> */}
+    </Routes>
 
   );
 }

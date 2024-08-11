@@ -14,12 +14,21 @@ function Payment() {
         body: JSON.stringify({
           token: result.token,
           amount: 2000, 
-        }), 
+          userId:localStorage.getItem('userId'),
+          docId:localStorage.getItem('doctorId'),
+          startTime:localStorage.getItem('startTime'),
+          endTime:localStorage.getItem('endTime')
+        })
       });
 
       const paymentResult = await response.json(); 
-      // console.log(paymentResult)
+      localStorage.removeItem('userId')
+      localStorage.removeItem('doctorId')
+      localStorage.removeItem('startTime')
+      localStorage.removeItem('endTime')
       alert(`payment id:${paymentResult.payment.id}`)
+      //
+      //navigate
     }
   }
 
