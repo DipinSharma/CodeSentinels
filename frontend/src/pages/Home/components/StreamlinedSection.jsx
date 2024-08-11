@@ -14,9 +14,9 @@ const StreamlinedSection = () => {
 
                 <ul className="mt-8 grid gap-4 sm:grid-cols-1 lg:grid-cols-3">
                     <li>
-                        <a href="#" className="group block overflow-hidden">
+                        <a href="/" disabled className="group block overflow-hidden">
                             <img
-                                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                                src="https://assets-global.website-files.com/60a3c6ed0d50ee830d47b5bf/62cf10e2a2588fa937f160dd_Video%20call%20security-1000_x_525.png"
                                 alt=""
                                 className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
                             />
@@ -36,7 +36,7 @@ const StreamlinedSection = () => {
                     <li>
                         <a href="#" className="group block overflow-hidden">
                             <img
-                                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                                src="https://img.freepik.com/premium-vector/payment-transaction-done-via-app-illustration_57801-326.jpg"
                                 alt=""
                                 className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
                             />
@@ -56,7 +56,7 @@ const StreamlinedSection = () => {
                     <li>
                         <a href="#" className="group block overflow-hidden">
                             <img
-                                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                                src="https://easyslotbooking.com/images/graphics/to-add.png"
                                 alt=""
                                 className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
                             />

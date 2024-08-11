@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
-function Payment() {
+function Payment({userId,docId,startTime,endTime,day}) {
   const [card,setCard] = useState(null)
-
+  const navigate=useNavigate();
   const handlePayment = async () => {
 
     const result = await card.tokenize();
@@ -13,21 +14,15 @@ function Payment() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           token: result.token,
-          amount: 2000, 
-          userId:localStorage.getItem('userId'),
-          docId:localStorage.getItem('doctorId'),
-          startTime:localStorage.getItem('startTime'),
-          endTime:localStorage.getItem('endTime')
+          amount: 2000, userId,docId,startTime,endTime,day
         })
       });
-
       const paymentResult = await response.json(); 
-      localStorage.removeItem('userId')
-      localStorage.removeItem('doctorId')
-      localStorage.removeItem('startTime')
-      localStorage.removeItem('endTime')
-      alert(`payment id:${paymentResult.payment.id}`)
-      //
+      console.log(paymentResult,day)
+      alert(`payment id:${paymentResult.payment}`)
+      if(paymentResult.payment.id){
+        navigate(`/videoChat/${paymentResult.sessionId}`);
+      }
       //navigate
     }
   }

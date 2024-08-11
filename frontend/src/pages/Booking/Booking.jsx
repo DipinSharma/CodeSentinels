@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../../shared/components/Navbar';
 import Footer from '../../shared/components/Footer';
+import axios from 'axios';
+import Payment from '../payement/components/Payment';
 
 // Utility function to get the next 7 days starting from today
 const getNext7Days = () => {
-  const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
   const today = new Date();
   const days = [];
   
@@ -18,113 +20,39 @@ const getNext7Days = () => {
 };
 
 const Booking = () => {
-  const [specialties, setSpecialties] = useState(["Pediatrician", "Dermatologist", "Cardiologist"]);
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+  const [specialties, setSpecialties] = useState(["Pediatrician", "Dermatologist", "Cardiologist", "Bones"]);
   const [selectedSpecialties, setSelectedSpecialties] = useState([]);
-  const [records] = useState([
-    {
-      name: "John Doe",
-      specialty: "Pediatrician",
-      days: {
-        Monday: [
-          { time: "09:00 AM", available: true },
-          { time: "01:00 PM", available: true },
-          { time: "02:00 PM", available: false },
-        ],
-        Tuesday: [
-          { time: "10:00 AM", available: true },
-          { time: "02:00 PM", available: false },
-        ],
-        Wednesday: [
-          { time: "09:30 AM", available: false },
-          { time: "03:00 PM", available: true },
-        ],
-        Thursday: [
-          { time: "10:30 AM", available: true },
-          { time: "01:30 PM", available: true },
-        ],
-        Friday: [
-          { time: "08:00 AM", available: true },
-          { time: "12:00 PM", available: false },
-        ],
-        Saturday: [
-          { time: "09:00 AM", available: true },
-          { time: "01:00 PM", available: true },
-        ],
-        Sunday: [
-          { time: "10:00 AM", available: false },
-          { time: "02:00 PM", available: true },
-        ],
-      }
-    },
-    {
-      name: "Jane Doe",
-      specialty: "Dermatologist",
-      days: {
-        Monday: [
-          { time: "10:00 AM", available: true },
-          { time: "02:00 PM", available: false },
-        ],
-        Tuesday: [
-          { time: "11:00 AM", available: true },
-          { time: "03:00 PM", available: true },
-        ],
-        Wednesday: [
-          { time: "10:30 AM", available: false },
-          { time: "02:30 PM", available: true },
-        ],
-        Thursday: [
-          { time: "11:30 AM", available: true },
-          { time: "01:30 PM", available: true },
-        ],
-        Friday: [
-          { time: "09:00 AM", available: true },
-          { time: "12:00 PM", available: true },
-        ],
-        Saturday: [
-          { time: "10:00 AM", available: true },
-          { time: "01:00 PM", available: true },
-        ],
-        Sunday: [
-          { time: "11:00 AM", available: true },
-          { time: "02:00 PM", available: true },
-        ],
-      }
-    },
-    {
-      name: "Gary Barlow",
-      specialty: "Cardiologist",
-      days: {
-        Monday: [
-          { time: "08:00 AM", available: true },
-          { time: "12:00 PM", available: true },
-        ],
-        Tuesday: [
-          { time: "09:00 AM", available: false },
-          { time: "01:00 PM", available: true },
-        ],
-        Wednesday: [
-          { time: "08:30 AM", available: true },
-          { time: "01:30 PM", available: true },
-        ],
-        Thursday: [
-          { time: "09:30 AM", available: true },
-          { time: "02:00 PM", available: true },
-        ],
-        Friday: [
-          { time: "07:00 AM", available: false },
-          { time: "11:00 AM", available: true },
-        ],
-        Saturday: [
-          { time: "08:00 AM", available: true },
-          { time: "12:00 PM", available: true },
-        ],
-        Sunday: [
-          { time: "09:00 AM", available: false },
-          { time: "01:00 PM", available: true },
-        ],
-      }
-    },
-  ]);
+  const [records, setRecords] = useState([]);
+  const [filteredRecords, setFilteredRecords] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const [docId, setDocId] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+  const [day, setDay] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const getData = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_DOCTORS);
+      setRecords(response.data);
+    } catch (e) {
+      console.log("server side issue");
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('user')) {
+      console.log(JSON.parse(localStorage.getItem('user')))
+      setUserId(JSON.parse(localStorage.getItem('user')).user._id)
+    }
+    getData();
+  }, []);
+
+  useEffect(() => {
+    const data = records.filter(record =>
+      selectedSpecialties.length === 0 || selectedSpecialties.includes(record.specialty)
+    );
+    setFilteredRecords(data);
+  }, [records, selectedSpecialties]);
 
   // Calculate dynamic days array
   const days = getNext7Days();
@@ -138,9 +66,17 @@ const Booking = () => {
     );
   };
 
-  const filteredRecords = records.filter(record =>
-    selectedSpecialties.length === 0 || selectedSpecialties.includes(record.specialty)
-  );
+  // Function to handle button click
+  const handleButtonClick = (start, end, doctorName,index) => {
+    setDocId(doctorName);
+    setStartTime(start);
+    setEndTime(end)
+    setDay(daysOfWeek[index]);
+    console.log(`Doctor: ${doctorName}`);
+    console.log(`Start Time: ${new Date(start).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`);
+    console.log(`End Time: ${new Date(end).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`);
+    console.log(daysOfWeek[index])
+  };
 
   return (
     <>
@@ -153,7 +89,7 @@ const Booking = () => {
               Easily schedule consultations with our secure and user-friendly appointment booking system.
             </p>
           </header>
-          
+
           {/* Mobile Filter Button */}
           <div className="mt-8 block lg:hidden">
             <button
@@ -291,31 +227,37 @@ const Booking = () => {
                 <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
                   <thead className="ltr:text-left rtl:text-right">
                     <tr>
-                      <th className="lg:sticky md:sticky left-0 z-10 whitespace-nowrap px-6 py-3 font-medium text-gray-900 bg-white" style={{ width: '200px' }}>Name</th>
-                      <th className="lg:sticky md:sticky left-[125px] z-10 whitespace-nowrap px-6 py-3 font-medium text-gray-900 bg-white">Specialty</th>
-                      {days.map(day => (
-                        <th key={day} className="whitespace-nowrap px-6 py-3 font-medium text-gray-900">{day}</th>
+                      <th className="lg:sticky md:sticky left-0 z-10 whitespace-nowrap px-6 py-3 font-medium text-gray-900 bg-white">
+                        Doctors
+                      </th>
+                      {days.map((day, index) => (
+                        <th key={index} className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                          {day}
+                        </th>
                       ))}
                     </tr>
                   </thead>
-
                   <tbody className="divide-y divide-gray-200">
                     {filteredRecords.map((record, index) => (
                       <tr key={index}>
-                        <td className="lg:sticky md:sticky left-0 z-10 whitespace-nowrap px-6 py-4 font-medium text-gray-900 bg-white" style={{ width: '200px' }}>{record.name}</td>
-                        <td className="lg:sticky md:sticky left-[125px] z-10 whitespace-nowrap px-6 py-4 text-gray-700 bg-white">{record.specialty}</td>
-                        {days.map(day => (
-                          <td key={day} className="whitespace-nowrap px-6 py-4">
-                            {record.days[day]?.map((slot, idx) => (
-                              <div key={idx} className="text-gray-700 mb-1">
-                                <button
-                                  className={`inline-flex items-center justify-center px-2 py-1 text-xs rounded border ${slot.available ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-red-500 text-white cursor-not-allowed'} focus:outline-none focus:ring-2 ${slot.available ? 'focus:ring-green-500' : 'focus:ring-red-500'}`}
-                                  disabled={!slot.available}
-                                >
-                                  {slot.time}
-                                </button>
-                              </div>
-                            ))}
+                        <td className="whitespace-nowrap px-6 py-4 font-medium text-gray-900 bg-gray-50 lg:sticky left-0 z-10">
+                          {record.name}
+                        </td>
+                        {days.map((day, i) => (
+                          <td key={i} className="whitespace-nowrap px-4 py-2 text-gray-700">
+                            {record.availability.timeSlots
+                              .filter((slot) => slot.day === day)
+                              .map((slot, idx) => (
+                                <div key={idx} className="mb-2">
+                                  <button
+                                    onClick={() => handleButtonClick(slot.start, slot.end, record.name,idx)}
+                                    className={`px-4 py-2 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-opacity-50 ${slot.booked ? 'bg-red-500' : 'bg-green-500'} ${slot.booked ? 'text-gray-300' : 'text-white'} transition-transform transform hover:scale-105`}
+                                    disabled={slot.booked} // Disable the button if it's booked
+                                  >
+                                    {`${new Date(slot.start).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} - ${new Date(slot.end).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}`}
+                                  </button>
+                                </div>
+                              ))}
                           </td>
                         ))}
                       </tr>
@@ -324,6 +266,7 @@ const Booking = () => {
                 </table>
               </div>
             </div>
+            <Payment userId={userId} docId={docId} startTime={startTime } endTime={ endTime} day={day}/>
           </div>
         </div>
       </section>

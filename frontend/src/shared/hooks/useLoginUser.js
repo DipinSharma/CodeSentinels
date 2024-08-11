@@ -24,7 +24,7 @@ export const useLoginUser = () => {
                 localStorage.setItem('user', JSON.stringify(response.data));
                 // Update the auth context
                 dispatch({ type: 'LOGIN_USER', payload: response.data });
-                navigate('patient/dashboard')
+                navigate('/patient/dashboard')
 
             }
         } catch (error) {

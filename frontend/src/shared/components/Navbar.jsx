@@ -13,13 +13,7 @@ const Navbar = () => {
     const { logout } = useLogout();
 
     useEffect(() => {
-        let present=localStorage.getItem("user")
-        if(present)
-            setAuth(JSON.parse(present).user.name);
-        else{
-            let present2=localStorage.getItem("doctor")
-            setAuth(JSON.parse(present2).user.name);
-        }
+        setAuth(user)
     }, [user]);
     const handleChange = (event) => {
         setAuth(!auth);
@@ -142,12 +136,6 @@ const Navbar = () => {
                                 >
 
                                     <div className="p-2">
-                                        <h3 className='rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700'>
-                                            {auth}
-                                        </h3>
-
-                                    </div>
-                                    <div className="p-2">
                                         <Button onClick={handleChange}>
                                             Log Out
                                         </Button>
@@ -163,4 +151,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar;
+export default Navbar;

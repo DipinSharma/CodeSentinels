@@ -6,5 +6,6 @@ const detailsRouter = express.Router(); // Renamed to detailsRouter for better r
 
 detailsRouter.get('/userDetails', getAllUserDetails);
 detailsRouter.get('/doctorDetails', getDetailsOfADoctor);
-detailsRouter.post('/getUserSessions',getDetails.getUserSessions);
+detailsRouter.post('/getUserSessions', getDetails.getUserSessions);
+detailsRouter.post('/getPatientSessions', getDetails.getPatientDetails);
 export default detailsRouter; // Exporting the router

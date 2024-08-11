@@ -13,7 +13,7 @@ const BenefitsSection = () => {
           <li>
             <a href="#" className="group block overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                src="https://i.pinimg.com/474x/c9/24/f4/c924f4789832138e6f6cbe7883f122e8.jpg"
                 alt=""
                 className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
               />
@@ -53,7 +53,7 @@ const BenefitsSection = () => {
           <li>
             <a href="#" className="group block overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                src="https://static.vecteezy.com/system/resources/previews/014/003/964/original/person-having-a-video-call-or-online-conference-meeting-smartphone-interface-3d-icon-cartoon-minimal-style-video-chat-user-interface-video-calls-window-3d-icon-free-to-edit-3d-vector.jpg"
                 alt=""
                 className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
               />

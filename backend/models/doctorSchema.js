@@ -24,6 +24,9 @@ const doctorSchema = new mongoose.Schema({
         required: true,
         enum: ["male", "female"]
     },
+    "specialty":{
+        type: Schema.Types.String
+    },
     "age": {
         type: Schema.Types.Number,
         required: true

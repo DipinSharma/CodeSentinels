@@ -11,7 +11,6 @@ export const doctorController={
                 temp.name = i.name;
                 temp.id=i._id;
                 temp.phoneNumber = i.phoneNumber;
-                temp.specialty="bones";
                 temp.yearsOfExperience = i.yearsOfExperience;
                 temp.availability = await AvailabilityModel.findOne({ _id: i.availability });
                 return temp; 

@@ -17,7 +17,8 @@ export const paymentController = {
 
                 if (sanitizedPaymentResult.payment.id) {
                     const sessionId = crypto.randomBytes(16).toString('base64').slice(0, 16).replace(/[/+]/g, '');
-                    await SessionModel.create({ docId, userId, startTime, endTime, day, sessionId });
+                    const obj=await SessionModel.create({ docId, userId, startTime, endTime, day, sessionId });
+                    sanitizedPaymentResult.sessionId=sessionId;
                     console.log(sanitizedPaymentResult)
                     return res.status(200).json(sanitizedPaymentResult);
                 }

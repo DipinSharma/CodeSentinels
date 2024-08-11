@@ -18,4 +18,4 @@ const VideoChat = () => {
   )
 }
 
-export default VideoChat 
+export default VideoChat
