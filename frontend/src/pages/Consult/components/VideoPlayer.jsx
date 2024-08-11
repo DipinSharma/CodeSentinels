@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Grid, Box, Heading } from "@chakra-ui/react";
 import { SocketContext } from "../../../Context";
 
-const VideoPlayer = () => {
+const VideoPlayer = ({transcription,setTranscription}) => {
     const { name, callAccepted, myVideo, userVideo, callEnded, stream, call } = useContext(SocketContext);
 
-    const [transcription, setTranscription] = useState([]);
     const myAudioRef = useRef(null);
     const userAudioRef = useRef(null);
 
