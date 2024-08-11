@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Load your trained SpaCy model (replace with the actual path to your model)
-nlp_ner = spacy.load(r"E:\Github_Repos\CodeSentinels\ML\Models\model-best")
+nlp_ner = spacy.load('Models/model-best')
 
 @app.route('/', methods=['POST'])
 def predict():
