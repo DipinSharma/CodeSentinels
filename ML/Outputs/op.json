@@ -1,0 +1,25 @@
+{
+    "userId": "12345",
+    "doctorId": "67890",
+    "text": "Patient: Doctor, I\u00e2\u20ac\u2122ve been having severe cramps and bloating during my menstrual cycle.\nDoctor: How long have you been experiencing these symptoms, and have they been getting worse?\nPatient: It\u00e2\u20ac\u2122s been a few months, and they do seem to be getting worse.\nDoctor: This could be due to endometriosis or another gynecological issue. I recommend a pelvic exam and an ultrasound.\nPatient: I\u00e2\u20ac\u2122ll get those tests done. Should I take pain relievers?\nDoctor: Yes, over-the-counter pain relievers can help. Follow up to discuss the results and any necessary treatments.\nPatient: Thank you, Doctor.",
+    "entities": {
+        "SYMPTOMS": [
+            "bloating during my menstrual",
+            "severe"
+        ],
+        "DIAGNOSIS": [
+            "endometriosis",
+            "gynecological issue."
+        ],
+        "TESTS": [
+            "pelvic exam",
+            "ultrasound"
+        ],
+        "ADVICE": [
+            "over-the-counter pain relievers"
+        ],
+        "FOLLOW-UP DATE": [
+            "Follow up to discuss the results and any necessary treatments"
+        ]
+    }
+}

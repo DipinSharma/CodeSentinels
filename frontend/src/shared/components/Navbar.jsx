@@ -1,8 +1,51 @@
-import React from 'react'
-import { useStateProvider } from '../../context/stateContext'
+
+import React, { useState, useEffect, useRef } from 'react';
+import { useAuthContext } from '../hooks/useAuthContext';
+import { Button } from '@chakra-ui/react';
+import { useLogout } from '../hooks/useLogout';
+import { json } from 'react-router-dom';
+import { formToJSON } from 'axios';
 
 const Navbar = () => {
-    const [{videCall},dispatch] = useStateProvider()
+    const [auth, setAuth] = useState();
+    const { user } = useAuthContext();
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
+    const { logout } = useLogout();
+
+    useEffect(() => {
+        let present=localStorage.getItem("user")
+        if(present)
+            setAuth(JSON.parse(present).user.name);
+        else{
+            let present2=localStorage.getItem("doctor")
+            setAuth(JSON.parse(present2).user.name);
+        }
+    }, [user]);
+    const handleChange = (event) => {
+        setAuth(!auth);
+        setDropdownOpen(!dropdownOpen)
+        logout();
+    };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
+
+
     return (
         <header className="bg-white">
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -30,8 +73,6 @@ const Navbar = () => {
                                     <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Consult Doctor </a>
                                 </li>
 
-
-
                                 <li>
                                     <a className="text-gray-500 transition hover:text-gray-500/75" href="/videoChat"
                                     onClick={()=>{
@@ -45,16 +86,15 @@ const Navbar = () => {
                                 <li>
                                     <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> About Us </a>
                                 </li>
-
                             </ul>
                         </nav>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    {!auth && <div className="flex items-center gap-4">
                         <div className="sm:flex sm:gap-4">
                             <a
                                 className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-                                href="/login"
+                                href="/login/patient"
                             >
                                 Login
                             </a>
@@ -62,7 +102,7 @@ const Navbar = () => {
                             <div className="hidden sm:flex">
                                 <a
                                     className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
-                                    href="/accounttype"
+                                    href="/signUp/patient"
                                 >
                                     Register
                                 </a>
@@ -83,11 +123,52 @@ const Navbar = () => {
                                 </svg>
                             </button>
                         </div>
-                    </div>
+                    </div>}
+                    {auth &&
+                        <div className="relative" ref={dropdownRef}>
+                            <button
+                                className="rounded bg-gray-100 p-2 text-gray-600 transition hover:text-gray-600/75"
+                                onClick={toggleDropdown}
+                            >
+                                <span className="sr-only">Menu</span>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+
+                            {dropdownOpen && (
+                                <div
+                                    className="absolute end-0 z-10 mt-2 rounded-md border border-gray-100 bg-white shadow-lg"
+                                    role="menu"
+                                >
+
+                                    <div className="p-2">
+                                        <h3 className='rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700'>
+                                            {auth}
+                                        </h3>
+
+                                    </div>
+                                    <div className="p-2">
+                                        <Button onClick={handleChange}>
+                                            Log Out
+                                        </Button>
+
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    }
                 </div>
             </div>
         </header>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;

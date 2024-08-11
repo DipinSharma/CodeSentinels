@@ -9,7 +9,10 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import paymentRoutes from './routes/paymentRouter.js';
 import { Client, Environment } from 'square';
+
 import bookedRouter from './routes/bookingRoute.js';
+import doctorRoutes from './routes/doctorRouter.js';
+
 
 config({ path: './.env' });
 
@@ -25,19 +28,23 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const client = new Client({
-  environment: Environment.Sandbox, 
+  environment: Environment.Sandbox,
   accessToken: process.env.SANDBOX_ACCESS_TOKEN,
-});   
+});
 export const paymentsApi = client.paymentsApi;
 
 mongoDB();
-
+console.log(process.env.FRONTEND_URL)
 // Routes
 app.use("/user", userRoutes);
 app.use('/consultation', consultationRoutes);
 app.use('/details', detailsRouter);
+
 app.use('/payments',paymentRoutes)
 app.use('/booking',bookedRouter)
+
+
+app.use('/doctors', doctorRoutes);
 app.use((req, res) => res.send("Invalid URL"));
 
 // Create HTTP server and pass it to Socket.IO
@@ -69,8 +76,8 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     socket.broadcast.emit("callEnded");
   });
-// session ID-->userToCall
-// name->userId
+  // session ID-->userToCall
+  // name->userId
   socket.on("callUser", ({ userToCall, signalData, from, name }) => {
     let id=bookings.get(userToCall)
     io.to(id).emit("callUser", { signal: signalData, from, name });
