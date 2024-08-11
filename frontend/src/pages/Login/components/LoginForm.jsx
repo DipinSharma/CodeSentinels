@@ -5,7 +5,7 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState('');
-  const [{userInfo},dispatch]=useStateProvider()
+  const [{userInfo,userType},dispatch]=useStateProvider()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,6 +16,7 @@ const LoginForm = () => {
     }
 
     try {
+      console.log(email," ",password)
       const response = await fetch('http://localhost:5000/user/userLogin', {
         method: 'POST',
         headers: {
@@ -23,14 +24,35 @@ const LoginForm = () => {
         },
         body: JSON.stringify({ email, password }),
       });
-
-      const data = await response.json();
+        console.log(response)
+      const response2 = await fetch('http://localhost:5000/user/doctorLogin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      console.log(response2)
+      let response3=null;
+      if(response){
+        response3=response
+      }else if(response2){
+        response3=response2
+      }
+      const data = await response3.json();
       if (response.ok) {
         console.log('Login successful:', data);
         dispatch({
-            type:"set_user_info",
-            data:data.user
-        })
+          type: "set_user_info",
+          payload: data.user
+        });
+  
+        // Determine userType based on userInfo
+        const userType = data.user.yearsOfExperience ? "doctor" : "patient";
+        dispatch({
+          type: "set_user_type",
+          payload: userType
+        });
         // Handle successful login (e.g., save token, redirect, etc.)
       } else {
         console.error('Login failed:', data.message);

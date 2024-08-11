@@ -10,6 +10,7 @@ const VideoPlayer = () => {
     const userAudioRef = useRef(null);
 
     useEffect(() => {
+        console.log("Stream:", stream);
         if (stream && myVideo.current) {
             myVideo.current.srcObject = stream;
 
@@ -43,13 +44,6 @@ const VideoPlayer = () => {
         recognition.lang = 'en-US';
         recognition.interimResults = true;
 
-        // Attach audio stream to the recognition instance
-        const audioContext = new AudioContext();
-        const mediaStreamSource = audioContext.createMediaStreamSource(audioStream);
-        const audioProcessor = audioContext.createScriptProcessor(1024, 1, 1);
-        mediaStreamSource.connect(audioProcessor);
-        audioProcessor.connect(audioContext.destination);
-
         recognition.start();
 
         recognition.onresult = (event) => {
@@ -73,29 +67,28 @@ const VideoPlayer = () => {
     };
 
     return (
-        <Grid justifyContent="center" templateColumns='repeat(2, 1fr)' mt="12">
-            {/* my video */}
-            {stream && (
-                <Box>
-                    <Grid colSpan={1}>
+        <Box>
+            <Grid justifyContent="center" templateColumns='repeat(2, 1fr)' mt="12" gap={6}>
+                {/* My video */}
+                {stream && (
+                    <Box>
                         <Heading as="h5">
-                            {name || 'Name'}
+                            {name || 'My Name'}
                         </Heading>
                         <video playsInline muted ref={myVideo} autoPlay width="600" />
-                    </Grid>
-                </Box>
-            )}
-            {/* user's video */}
-            {callAccepted && !callEnded && (
-                <Box>
-                    <Grid colSpan={1}>
+                    </Box>
+                )}
+                {/* User's video */}
+                {callAccepted && !callEnded && (
+                    <Box>
                         <Heading as="h5">
-                            {call.name || 'Name'}
+                            {call.name || 'User Name'}
                         </Heading>
                         <video playsInline ref={userVideo} autoPlay width="600" />
-                    </Grid>
-                </Box>
-            )}
+                    </Box>
+                )}
+            </Grid>
+
             {/* Transcription Display */}
             <Box mt="8" p="4" borderWidth="1px" borderRadius="lg">
                 <Heading as="h6" size="md" mb="4">
@@ -105,7 +98,7 @@ const VideoPlayer = () => {
                     <p key={index}>{line}</p>
                 ))}
             </Box>
-        </Grid>
+        </Box>
     );
 };
 

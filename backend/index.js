@@ -9,13 +9,19 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import paymentRoutes from './routes/paymentRouter.js';
 import { Client, Environment } from 'square';
+import bookedRouter from './routes/bookingRoute.js';
 
 config({ path: './.env' });
 
 const app = express();
 const port = process.env.PORT;
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",  // Adjust this to match your frontend URL
+  methods: ["GET", "POST"],
+  credentials: true,
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 const client = new Client({
@@ -31,6 +37,7 @@ app.use("/user", userRoutes);
 app.use('/consultation', consultationRoutes);
 app.use('/details', detailsRouter);
 app.use('/payments',paymentRoutes)
+app.use('/booking',bookedRouter)
 app.use((req, res) => res.send("Invalid URL"));
 
 // Create HTTP server and pass it to Socket.IO
@@ -38,13 +45,25 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL,
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
     credentials: true,
   },
 });
 
+global.bookings=new Map();
+
+
+
+
 io.on("connection", (socket) => {
+  socket.on("add-doctor",(userEmail) =>{
+    // let obj={
+
+    // }
+    bookings.set(userEmail,socket.id)
+    
+  })
   socket.emit("me", socket.id);
 
   socket.on("disconnect", () => {
@@ -53,7 +72,8 @@ io.on("connection", (socket) => {
 // session ID-->userToCall
 // name->userId
   socket.on("callUser", ({ userToCall, signalData, from, name }) => {
-    io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+    let id=bookings.get(userToCall)
+    io.to(id).emit("callUser", { signal: signalData, from, name });
   });
 
   socket.on("answerCall", (data) => {

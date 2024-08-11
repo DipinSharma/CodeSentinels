@@ -1,6 +1,8 @@
 import React from 'react'
+import { useStateProvider } from '../../context/stateContext'
 
 const Navbar = () => {
+    const [{videCall},dispatch] = useStateProvider()
     return (
         <header className="bg-white">
             <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -31,7 +33,13 @@ const Navbar = () => {
 
 
                                 <li>
-                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/videoChat"> Call</a>
+                                    <a className="text-gray-500 transition hover:text-gray-500/75" href="/videoChat"
+                                    onClick={()=>{
+                                        dispatch({
+                                            type:"set_video_call",
+                                            videCall:true,
+                                        })
+                                    }}> Call</a>
                                 </li>
 
                                 <li>

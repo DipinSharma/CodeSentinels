@@ -59,7 +59,7 @@ export const doctorSignUp = async(req,res) =>{
     try{
         const {
             name, email, password,
-            phoneNumber, gender, age,licenseNumber,yearsOfExperience,availability
+            phoneNumber, gender, age, licenseNumber, yearsOfExperience,availability
         } = req.body;
         console.log("availabiltiy ",availability)
         console.log(licenseNumber);
@@ -170,6 +170,10 @@ export const login=async(req,res)=>{
 }
 
 
+// import bcrypt from 'bcrypt';
+// import jwt from 'jsonwebtoken';
+// import { DoctorModel } from '../models/DoctorModel';  // Adjust the path to your model
+
 export const doctorLogin=async(req,res)=>{
     try{
         // get data from req body
@@ -184,6 +188,7 @@ export const doctorLogin=async(req,res)=>{
         } 
         // user exist or not
         const user=await DoctorModel.findOne({email});
+        console.log("user ",user)
         if(!user){
             return res.status(401).json({
                 success:false,
@@ -231,5 +236,3 @@ export const doctorLogin=async(req,res)=>{
         })
     }
 }
-
-

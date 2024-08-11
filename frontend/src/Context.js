@@ -1,11 +1,12 @@
 import React, { createContext, useState, useRef, useEffect } from 'react';
-import { io } from 'socket.io-client';
+import { io } from 'socket.io-client'; // Import io from socket.io-client
 import Peer from 'simple-peer';
+import { useStateProvider } from './context/stateContext';
 
 const SocketContext = createContext();
-const socket = io('https://codesentinels.onrender.com/');
 
 const ContextProvider = ({ children }) => {
+    const [{ videoCall, userType, userInfo, socket }, dispatch] = useStateProvider(); // Use socket from context
     const [callAccepted, setCallAccepted] = useState(false);
     const [callEnded, setCallEnded] = useState(false);
     const [stream, setStream] = useState(null);
@@ -16,26 +17,44 @@ const ContextProvider = ({ children }) => {
     const userVideo = useRef(null);
     const connectionRef = useRef(null);
 
+    // Ensure socket is initialized and dispatched
     useEffect(() => {
-        // Request access to video and audio stream
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-            .then((currentStream) => {
-                setStream(currentStream);
+        if (!socket) {
+            const socketInstance = io('http://localhost:5000'); // Initialize socket
+            dispatch({
+                type: "set_socket",
+                payload: socketInstance
+            });
+        }
+    }, [dispatch, socket]);
 
-                // Check if myVideo is defined before assigning srcObject
-                if (myVideo.current) {
-                    myVideo.current.srcObject = currentStream;
-                }
+    useEffect(() => {
+        if (socket) {
+            // Request access to video and audio stream
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then((currentStream) => {
+                    setStream(currentStream);
+
+                    if (myVideo.current) {
+                        myVideo.current.srcObject = currentStream;
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error accessing media devices.', error);
+                });
+
+            socket.on('connect', () => {
+                console.log('Connected to socket server with ID:', socket.id);
             });
 
-        // Listen for the "me" event to get the socket ID
-        socket.on('me', (id) => setMe(id));
+            socket.on('me', (id) => setMe(id));
 
-        // Listen for the "callUser" event when someone is trying to call
-        socket.on('callUser', ({ from, name: callerName, signal }) => {
-            setCall({ isReceivingCall: true, from, name: callerName, signal });
-        });
-    }, []);
+            socket.on('callUser', ({ from, name: callerName, signal }) => {
+                console.log('Incoming call from:', callerName);
+                setCall({ isReceivingCall: true, from, name: callerName, signal });
+            });
+        }
+    }, [socket]);
 
     const answerCall = () => {
         setCallAccepted(true);
@@ -47,7 +66,6 @@ const ContextProvider = ({ children }) => {
         });
 
         peer.on('stream', (currentStream) => {
-            // Check if userVideo is defined before assigning srcObject
             if (userVideo.current) {
                 userVideo.current.srcObject = currentStream;
             }
@@ -57,15 +75,17 @@ const ContextProvider = ({ children }) => {
         connectionRef.current = peer;
     };
 
-    const callUser = (id) => {
+    const callUser = () => {
         const peer = new Peer({ initiator: true, trickle: false, stream });
 
+        // Define booking and replace booking.doctorEmail with an actual email or a variable that holds the email
+        const doctorEmail = "doctor@example.com"; // Replace with actual doctor email
+
         peer.on('signal', (data) => {
-            socket.emit('callUser', { userToCall: id, signalData: data, from: me, name });
+            socket.emit('callUser', { userToCall: doctorEmail, signalData: data, from: me, name });
         });
 
         peer.on('stream', (currentStream) => {
-            // Check if userVideo is defined before assigning srcObject
             if (userVideo.current) {
                 userVideo.current.srcObject = currentStream;
             }
