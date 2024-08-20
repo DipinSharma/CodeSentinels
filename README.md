@@ -1,16 +1,41 @@
-﻿# CodeSentinels
-## About the Project
+# Telehealth
 
-**Telehealth** is designed to transform the healthcare experience by offering a user-friendly platform where patients and healthcare providers can interact with ease. Whether it's booking an appointment, making an online payment, or having a real-time video consultation, Telehealth makes it all possible while maintaining a secure and efficient system.
+**Telehealth** is a platform designed to transform the healthcare experience by connecting patients and healthcare providers for secure and efficient digital consultations. Whether it's booking an appointment, making a payment, or having a real-time video consultation, Telehealth streamlines the process while ensuring data privacy and accuracy.
 
 ## Features
 
-- **Doctor-Patient Database**: A secure platform that facilitates interactions between doctors and patients through video calls, ensuring a personal connection.
+- **Doctor-Patient Database**: Secure video call interactions between doctors and patients.
+- **Appointment Booking & Online Payment**: Easy appointment scheduling and secure payments.
+- **Real-Time Consultations**: Video consultations that simulate in-person visits.
+- **Automatic Transcript Generation**: Real-time transcript creation analyzed with SpaCy.
+- **Prescription Generation**: Automatically generated prescriptions post-consultation.
 
-- **Appointment Booking & Online Payment**: Patients can book appointments effortlessly and pay securely before their consultations.
+## Getting Started
 
-- **Real-Time Consultations**: Video calls during consultations provide a close-to-in-person experience.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-- **Automatic Transcript Generation**: Real-time transcript creation during consultations, analyzed using SpaCy to extract key details such as symptoms, diagnosis, tests, medications, and follow-up dates.
+### Prerequisites
 
-- **Prescription Generation**: Automatically generated prescriptions at the end of consultations, offering patients clarity on their treatment plans.
+- Node.js
+- npm
+  
+### Available Scripts
+**npm start**: Runs the app in development mode.
+
+**npm test**: Launches the test runner.
+
+**npm run build**: Builds the app for production.
+
+**npm run eject**: Ejects the app configuration for full control.
+
+### Learn More
+Create React App Documentation
+React Documentation
+
+### License
+Distributed under the MIT License. See LICENSE for more information.
+
+### Acknowledgments
+Create React App
+React
+SpaCy
